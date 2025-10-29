@@ -1,29 +1,36 @@
-import { useState } from "react";
-import axios from "axios";
-import { GalleryVerticalEnd } from "lucide-react";
+import axios from 'axios';
+import { useState } from 'react';
+import { router } from '@inertiajs/react'; // ⬅️ tambahkan ini
 
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Field,
   FieldDescription,
   FieldGroup,
   FieldLabel,
   FieldSeparator,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { toast } from "sonner"; // ⬅️ Sonner
+} from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
+import { toast } from 'sonner';
 
-const API_URL = "http://210.79.190.9:7456/api/login";
+const API_URL = 'http://210.79.190.9:7456/api/login';
+
+// === Persist axios Authorization dari localStorage saat reload ===
+const savedToken =
+  typeof window !== 'undefined' ? localStorage.getItem('auth_token') : null;
+if (savedToken) {
+  axios.defaults.headers.common['Authorization'] = `Bearer ${savedToken}`;
+}
 
 type ApiValidationErr = { key: string; error_message: string };
 
 export function LoginForm({
   className,
   ...props
-}: React.ComponentProps<"div">) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+}: React.ComponentProps<'div'>) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -37,21 +44,30 @@ export function LoginForm({
         { email, password },
         {
           headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
           },
-        }
+        },
       );
 
-      // log lengkap + message (sesuai permintaan)
-      console.log("API response:", res.data);
-      console.log("message:", res?.data?.message);
+      console.log('API response:', res.data);
+      console.log('message:', res?.data?.message);
 
-      toast.success(res?.data?.message ?? "Login berhasil.");
+      // === AMBIL & SIMPAN TOKEN ===
+      const token = res?.data?.data?.token as string | undefined;
+      if (token) {
+        localStorage.setItem('auth_token', token);
+        const user = res?.data?.data?.user;
+        if (user) localStorage.setItem('auth_user', JSON.stringify(user));
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      } else {
+        console.warn('Token tidak ditemukan di response login.');
+      }
 
-      // contoh kalau perlu:
-      // const token = res?.data?.data?.token;
-      // const user  = res?.data?.data?.user;
+      toast.success(res?.data?.message ?? 'Login berhasil.');
+
+      // ⬇️ langsung pindah ke dashboard, token tetap tersimpan & header axios sudah di-set
+      router.visit('/dashboard');
 
     } catch (err: any) {
       if (axios.isAxiosError(err) && err.response) {
@@ -61,18 +77,16 @@ export function LoginForm({
           errors?: ApiValidationErr[];
         };
 
-        console.error("API error:", payload);
-        console.error("status:", code);
+        console.error('API error:', payload);
+        console.error('status:', code);
 
         if (code === 401) {
-          // Invalid credentials
-          toast.error(payload?.message ?? "Kredensial tidak valid.");
+          toast.error(payload?.message ?? 'Kredensial tidak valid.');
         } else if (code === 422) {
-          // Validation error → list per field
           const items = payload?.errors ?? [];
-          toast.error(payload?.message ?? "Validasi gagal.", {
+          toast.error(payload?.message ?? 'Validasi gagal.', {
             description: items.length ? (
-              <ul className="list-disc pl-5 space-y-1">
+              <ul className="list-disc space-y-1 pl-5">
                 {items.map((e) => (
                   <li key={e.key}>
                     <strong>{e.key}</strong>: {e.error_message}
@@ -82,11 +96,11 @@ export function LoginForm({
             ) : undefined,
           });
         } else {
-          toast.error(payload?.message ?? "Terjadi kesalahan tak terduga.");
+          toast.error(payload?.message ?? 'Terjadi kesalahan tak terduga.');
         }
       } else {
-        console.error("Network/Unknown error:", err?.message || err);
-        toast.error("Tidak dapat terhubung ke server. Coba lagi.");
+        console.error('Network/Unknown error:', err?.message || err);
+        toast.error('Tidak dapat terhubung ke server. Coba lagi.');
       }
     } finally {
       setSubmitting(false);
@@ -94,7 +108,7 @@ export function LoginForm({
   };
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div className={cn('flex flex-col gap-6', className)} {...props}>
       <form onSubmit={onSubmit}>
         <FieldGroup>
           <div className="flex flex-col items-center gap-2 text-center">
@@ -134,7 +148,7 @@ export function LoginForm({
 
           <Field>
             <Button type="submit" disabled={submitting}>
-              {submitting ? "Logging in..." : "Login"}
+              {submitting ? 'Logging in...' : 'Login'}
             </Button>
           </Field>
 
@@ -166,7 +180,7 @@ export function LoginForm({
       </form>
 
       <FieldDescription className="px-6 text-center">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
+        By clicking continue, you agree to our <a href="#">Terms of Service</a>{' '}
         and <a href="#">Privacy Policy</a>.
       </FieldDescription>
     </div>
