@@ -39,7 +39,7 @@ const user = {
 
 export function AppSidebar() {
     return (
-        <Sidebar>
+        <Sidebar className='p-4 bg-sidebar'>
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>

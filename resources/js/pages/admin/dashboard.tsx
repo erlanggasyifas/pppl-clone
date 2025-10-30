@@ -7,7 +7,7 @@ import {
 import AppLayout from '@/layouts/app-layout';
 export default function Dashboard() {
     return (
-        <div>
+        <div className='flex flex-col gap-6'>
             <div>
                 <SummaryCards />
             </div>

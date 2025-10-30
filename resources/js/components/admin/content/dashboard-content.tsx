@@ -7,17 +7,19 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
+    CardContent
 } from '@/components/ui/card';
 import { IconTrendingDown, IconTrendingUp } from '@tabler/icons-react';
+import { TableStatus } from './table-status';
 
 export function SummaryCards() {
     return (
         <div className="grid grid-cols-1 gap-6 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs lg:grid-cols-2 xl:grid-cols-4 dark:*:data-[slot=card]:bg-card">
             <Card className="@container/card">
                 <CardHeader>
-                    <CardDescription>Total Revenue</CardDescription>
+                    <CardDescription>New Member</CardDescription>
                     <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-                        $1,250.00
+                        192
                     </CardTitle>
                     <CardAction>
                         <Badge variant="outline">
@@ -38,7 +40,7 @@ export function SummaryCards() {
             </Card>
             <Card className="@container/card">
                 <CardHeader>
-                    <CardDescription>New Customers</CardDescription>
+                    <CardDescription>Active Member</CardDescription>
                     <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
                         1,234
                     </CardTitle>
@@ -61,7 +63,7 @@ export function SummaryCards() {
             </Card>
             <Card className="@container/card">
                 <CardHeader>
-                    <CardDescription>Active Accounts</CardDescription>
+                    <CardDescription>Premium Member</CardDescription>
                     <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
                         45,678
                     </CardTitle>
@@ -84,7 +86,7 @@ export function SummaryCards() {
             </Card>
             <Card className="@container/card">
                 <CardHeader>
-                    <CardDescription>Growth Rate</CardDescription>
+                    <CardDescription>Unsubscribe Member</CardDescription>
                     <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
                         4.5%
                     </CardTitle>
@@ -110,17 +112,37 @@ export function SummaryCards() {
 }
 
 export function StatusCards() {
-    return <div>ini status cards</div>;
+    return (
+        <div className="grid grid-cols-4 gap-6">
+            <div>
+                <TableStatus />
+            </div>
+        </div>
+    );
 }
 
 export function NewestMember() {
     return (
         <div>
-            <div>Newest Member</div>
-            <DataTableDemo
-                variant="compact"
-                limit={5} /* params={{ sortBy:'id', order:'desc' }} */
-            />
+            <Card className="@container/card">
+                <CardHeader>
+                    <CardTitle>Newest Member</CardTitle>
+                    <CardDescription>
+                        <span className="hidden @[540px]/card:block">
+                            Total for the last 3 months
+                        </span>
+                        <span className="@[540px]/card:hidden">
+                            Last 3 months
+                        </span>
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="px-2 sm:px-6">
+                    <DataTableDemo
+                        variant="compact"
+                        limit={5} /* params={{ sortBy:'id', order:'desc' }} */
+                    />
+                </CardContent>
+            </Card>
         </div>
     );
 }
