@@ -10,7 +10,7 @@ import {
   CardContent,
 } from '@/components/ui/card'
 
-export default function Dashboard() {
+export default function Member() {
   return (
     <div className="grid gap-4">
       {/* === Card 1: Context/Intro === */}
@@ -36,7 +36,7 @@ export default function Dashboard() {
 }
 
 // <-- pasang layout di property komponen:
-(Dashboard as any).layout = (page: React.ReactNode) => (
+(Member as any).layout = (page: React.ReactNode) => (
   <AppLayout
     title="Member"
     breadcrumb={[

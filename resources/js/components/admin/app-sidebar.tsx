@@ -25,11 +25,6 @@ const items = [
         url: '/activity',
         icon: ClipboardList,
     },
-    {
-        title: 'Status',
-        url: '/status',
-        icon: Activity,
-    },
 ];
 const user = {
     name: 'shadcn',

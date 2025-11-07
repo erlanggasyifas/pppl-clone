@@ -20,4 +20,9 @@ Route::get('/member', function () {
     return Inertia::render('admin/member');
 })->name('member');
 
+Route::get('/dashboard/member/{id}', function (string $id) {
+    return Inertia::render('admin/member-detail', [
+        'memberId' => $id,
+    ]);
+})->name('member.show');
 require __DIR__.'/settings.php';

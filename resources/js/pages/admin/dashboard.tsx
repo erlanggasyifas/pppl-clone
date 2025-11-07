@@ -12,9 +12,6 @@ export default function Dashboard() {
                 <SummaryCards />
             </div>
             <div>
-                <StatusCards />
-            </div>
-            <div>
                 <NewestMember />
             </div>
         </div>

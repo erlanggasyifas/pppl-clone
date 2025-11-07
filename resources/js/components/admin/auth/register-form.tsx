@@ -102,22 +102,27 @@ export function RegisterForm({
                             href="#"
                             className="flex flex-col items-center gap-2 font-medium"
                         >
-                            <img src="/assets/yarwee-logo.png" alt="" />
+                            <img
+                                src="/assets/yarwee-logo.png"
+                                alt="Logo Yarwee"
+                            />
                         </a>
                         <h1 className="text-xl font-bold">
-                            Welcome to Yarwee Admin
+                            Selamat datang di Yarwee Admin
                         </h1>
                         <FieldDescription>
-                            Have an account? <a href="/login">Login</a>
+                            Sudah punya akun? <a href="/login">Masuk</a>
                         </FieldDescription>
                     </div>
 
                     <Field>
-                        <FieldLabel htmlFor="email">Username</FieldLabel>
+                        <FieldLabel htmlFor="username">
+                            Nama Pengguna
+                        </FieldLabel>
                         <Input
                             id="username"
                             type="text"
-                            placeholder="m@example.com"
+                            placeholder="username"
                             required
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
@@ -137,11 +142,11 @@ export function RegisterForm({
                     </Field>
 
                     <Field>
-                        <FieldLabel htmlFor="email">Password</FieldLabel>
+                        <FieldLabel htmlFor="password">Kata Sandi</FieldLabel>
                         <Input
                             id="password"
                             type="password"
-                            placeholder="password"
+                            placeholder="kata sandi"
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
@@ -149,13 +154,13 @@ export function RegisterForm({
                     </Field>
 
                     <Field>
-                        <FieldLabel htmlFor="email">
-                            Confirm Password
+                        <FieldLabel htmlFor="passwordConfirmation">
+                            Konfirmasi Kata Sandi
                         </FieldLabel>
                         <Input
                             id="passwordConfirmation"
                             type="password"
-                            placeholder="password"
+                            placeholder="konfirmasi kata sandi"
                             required
                             value={passwordConfirmation}
                             onChange={(e) =>
@@ -166,15 +171,18 @@ export function RegisterForm({
 
                     <Field>
                         <Button type="submit" disabled={submitting}>
-                            {submitting ? 'Registering...' : 'Register'}
+                            {submitting ? 'Sedang mendaftar...' : 'Daftar'}
                         </Button>
                     </Field>
 
-                    <FieldSeparator>Or</FieldSeparator>
+                    {/* <FieldSeparator>Atau</FieldSeparator>
 
                     <Field className="grid gap-4 sm:grid-cols-2">
-                        <Button variant="outline" type="button">
-                            {/* Apple SVG */}
+                        <Button
+                            variant="outline"
+                            type="button"
+                            aria-label="Lanjutkan dengan Apple"
+                        >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
@@ -184,10 +192,14 @@ export function RegisterForm({
                                     fill="currentColor"
                                 />
                             </svg>
-                            Continue with Apple
+                            Lanjutkan dengan Apple
                         </Button>
-                        <Button variant="outline" type="button">
-                            {/* Google SVG */}
+
+                        <Button
+                            variant="outline"
+                            type="button"
+                            aria-label="Lanjutkan dengan Google"
+                        >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
@@ -197,16 +209,16 @@ export function RegisterForm({
                                     fill="currentColor"
                                 />
                             </svg>
-                            Continue with Google
+                            Lanjutkan dengan Google
                         </Button>
-                    </Field>
+                    </Field> */}
                 </FieldGroup>
             </form>
 
             <FieldDescription className="px-6 text-center">
-                By clicking continue, you agree to our{' '}
-                <a href="#">Terms of Service</a> and{' '}
-                <a href="#">Privacy Policy</a>.
+                Dengan mengklik <em>Lanjutkan</em>, Anda menyetujui{' '}
+                <a href="#">Ketentuan Layanan</a> dan{' '}
+                <a href="#">Kebijakan Privasi</a> kami.
             </FieldDescription>
         </div>
     );
